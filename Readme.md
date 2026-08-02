@@ -70,7 +70,7 @@ import scala.scalanative.unsafe.*
 class struct extends scala.annotation.StaticAnnotation
 
 @struct
-case class _Person(id: CInt, name: String | CString):
+case class _Person(id: CInt, name: CString):
   def isAdult: Boolean = p.id >= 18
 
   def printDetails()(using Zone): Unit =
@@ -138,11 +138,11 @@ Zone { implicit z =>
   person.setNameFromScalaString("Bob")
   println(s"Updated Name: ${person.nameToScalaString}")
     
-  // 2. Atualização Mutável dos Campos (Setters)
+  // 2. Mutable field update
   person.id = 42
-  person.name = c"Bob" // Re-aloca CString na Zone atual e atualiza o ponteiro
+  person.name = c"Bob" 
   
-  // 3. Atualização Imutável via Copy
+  // 3. Immutable update via Copy
   val person2 = person.copy(name = c"Charlie")
   
   // 4. Pattern Matching extraindo Strings
